@@ -3,12 +3,13 @@ from setuptools import setup, find_packages
 with open('README.md') as f:
     long_description = f.read()
 
+VERSION = '0.0.2'
 setup(
     name='pypwext',
     package_dir={"": "pypwext"},
     packages=find_packages(where="src"),
     python_requires=">=3.8",
-    version='0.0.1',
+    version=VERSION,
     license='APACHE 2.0',
     author='Mario Toffia',
     author_email='mario.toffia@example.com',
@@ -22,7 +23,7 @@ setup(
         'Documentation': 'https://github.com/mariotoffia/pypwext',
         'Tracker': 'https://github.com/mariotoffia/pypwext/issues',
     },
-    download_url='https://github.com/mariotoffia/pypwext/archive/refs/tags/0.0.1.tar.gz',
+    download_url=f'https://github.com/mariotoffia/pypwext/archive/refs/tags/{VERSION}.tar.gz',
     url='https://github.com/mariotoffia/pypwext',
     install_requires=[
         'chardet'

@@ -8,7 +8,7 @@ import string
 from typing import Tuple
 
 from pypwext.base import InfoClassification, Message, Classification, Arguments, Return, Operation
-from pypwext.logging import PyPwExtLogger, LogEntryType, LogType, VERBOSE
+from pypwext.pwlogging import PyPwExtLogger, LogEntryType, LogType, VERBOSE
 
 
 def get_new_logger_name() -> str:

@@ -330,7 +330,7 @@ def test_service_with_parsed_event_shall_succeed():
         items: List[OrderItem]
         optional_field: Optional[str]
 
-    from pypwext.logging import PyPwExtLogger
+    from pypwext.pwlogging import PyPwExtLogger
     service = PyPwExtService()
 
     @service.response(just_status_code=False)

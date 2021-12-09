@@ -9,9 +9,9 @@ from http import HTTPStatus
 from typing import Dict, Any
 from unittest.mock import patch
 
-from pypwext.logging import PyPwExtLogger
+from pypwext.pwlogging import PyPwExtLogger
 from pypwext.errors import PyPwExtError, PyPwExtHTTPError
-from pypwext.http import LambdaResponse, PyPwExtHTTPSession
+from pypwext.pwhttp import LambdaResponse, PyPwExtHTTPSession
 
 from .test_logging import get_new_logger_name
 

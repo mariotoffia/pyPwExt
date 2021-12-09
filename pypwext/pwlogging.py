@@ -396,13 +396,8 @@ class PyPwExtLogger(Logger):
 
 
             If the service is not specified, it will use the `POWERTOOLS_SERVICE_NAME` environment
-            variable to determine the service.
-
-            NOTE:   The `LOG_LEVEL` variable is evaluated every time the function is invoked. In addition, the
-                    error logging will use the `out_classification`, `out_type` and `out_operation` parameters.
-
-            When the function throws an exception, it will automatically log the exception and
-            re-raise the error again.
+            variable to determine the service. When the function throws an exception, it will automatically log the
+            exception and re-raise the error again.
 
         """
         def decorator(func):

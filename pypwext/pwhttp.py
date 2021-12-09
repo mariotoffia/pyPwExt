@@ -108,7 +108,6 @@ import json
 import os
 import chardet
 
-
 from typing import Optional, Union, Dict, List, Any
 from requests.models import Response, PreparedRequest
 from requests.structures import CaseInsensitiveDict
@@ -124,7 +123,7 @@ from base64 import b64encode
 from pydantic import BaseModel
 from io import BytesIO
 
-from pypwext.logging import PyPwExtLogger
+from pypwext.pwlogging import PyPwExtLogger
 from pypwext.base import InfoClassification, Classification
 from pypwext.utils import get_log_level, render_arg_env_string
 from pypwext.errors import PyPwExtInternalError, PyPwExtHTTPError

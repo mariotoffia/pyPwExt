@@ -155,12 +155,11 @@ from aws_lambda_powertools.utilities.data_classes import (
     APIGatewayProxyEventV2
 )
 
-@app.post('/leads')
 @event_source(data_class=APIGatewayProxyEventV2)
 @logger.method
 @errors.collect(root=True)
 @service.response(just_status_code=False)
-def handler(event: APIGatewayProxyEventV2):
+def handler(event: APIGatewayProxyEventV2,, context: LambdaContext):
     ...
 ```
 
@@ -170,10 +169,7 @@ def handler(event: APIGatewayProxyEventV2):
 2.  The intention of `@logger.method` is to log the `APIGatewayProxyEventV2` in addition to the `Response` object. It also logs
     any raised `PyPwExtError` object.
 
-3.  Then, for the `@event_source` to get its data to parse it to an `APIGatewayProxyEventV2` object, it must be after
-    `@app.post('/leads')`.
-
-3.  Lastly, the `Response` object is created on the return, so the `@app.post` gets the correct object.
+3.  Then, for the `@event_source` to get its data, parse it to an `APIGatewayProxyEventV2` object.
 
 
 :bulb: **Hence, the decorator *"execution"* order is top-down and returns bottom-up. You decide what you want to happen!**
@@ -227,7 +223,7 @@ The sample renders an API Gateway *body* response of:
 }
 ```
 
-It logs the objects in the payload and the response, and if any error occurs, if exception-log it automatically. It also records metrics for *my-service* in the namespace *POG* as an example of setting the environment variables *POWERTOOLS_SERVICE_NAME* and *POWERTOOLS_METRICS_NAMESPACE* to *my-service* and *POG* respectively.
+It logs the objects in the payload and the response, and if any error occurs, if exception-log it automatically. It also records metrics for *my-service* in the namespace *my-namespace* as an example of setting the environment variables *POWERTOOLS_SERVICE_NAME* and *POWERTOOLS_METRICS_NAMESPACE* to *my-service* and *my-namespace* respectively.
 
 ### Sample Calling other HTTP endpoints
 
@@ -465,9 +461,9 @@ Sample log entry:
     "classification": "PII",
     "type": "STD",
     "cold_start": true,
-    "function_name": "test-pog-backend-api-know_your_customer",
+    "function_name": "test_func",
     "function_memory_size": "1024",
-    "function_arn": "arn:aws:lambda:eu-west-1:010711114025:function:test-pog-backend-api-know_your_customer",
+    "function_arn": "arn:aws:lambda:eu-west-1:010711114025:function:test_func",
     "function_request_id": "a89efe17-7a9e-49f8-9b4c-f00abd7b2ac8",
     "correlation_id": "1db848fb-bf8b-4b5d-b2ad-61e2175181b4",
     "operation": "get-user-info",

@@ -5,6 +5,7 @@
         "behaviour",
         "botocore",
         "chardet",
+        "clzf",
         "dataclass",
         "istraceback",
         "mydomain",

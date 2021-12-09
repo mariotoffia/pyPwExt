@@ -1,9 +1,8 @@
 """PyPwExt logging module.
 
-    This module provides a simple logging interface. It is based on the
-    `aws_lambda_powertools.logging` module. It provides a `PyPwExtLogger` class
-    that adds a few extra fields and a `PyPwExtJSONFormatter` class that handles
-    most common types and protocols.
+    This module provides a simple logging interface. It is based on the `aws_lambda_powertools.logging` module. It provides a
+    `PyPwExtLogger` class that adds a few extra fields and a `PyPwExtJSONFormatter` class that handles most common types and protocols.
+    It also adds an additional log level `VERBOSE` that is used to log verbose information.
 
     Since it is based on [aws_lambda_powertools.logging](https://awslabs.github.io/aws-lambda-powertools-python/latest/core/logger/)
     it is capable of logging lambda context and other information such as xray_trace_id. The `PyPwExtLogger`
@@ -45,7 +44,7 @@
 
     The logger adheres to two environment variables that will override any settings:
 
-    + `LOG_LEVEL`: The log level to use, e.g. DEBUG.
+    + `LOG_LEVEL`: The log level to use, e.g. DEBUG or VERBOSE.
     + `POWERTOOLS_SERVICE_NAME`: The service name to use, e.g. "payment"
 
     # PyPwExt logger

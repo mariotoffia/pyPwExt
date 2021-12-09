@@ -1,5 +1,8 @@
 # PyPwExt
 
+![example workflow](https://github.com/mariotoffia/pypwext/actions/workflows/push.yml/badge.svg)
+![example workflow](https://github.com/mariotoffia/pypwext/actions/workflows/release.yml/badge.svg)
+
 PyPi(https://pypi.org/project/pypwext/)
 
 This module contains the core functionality of the PyPwExt µService applications. 

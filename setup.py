@@ -16,6 +16,7 @@ setup(
     maintainer_email='mario.toffia@example.com',
     description='Extension and Decorator for the AWS Lambda Powertools Library',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     project_urls={
         'Source': 'https://github.com/mariotoffia/pypwext',
         'Documentation': 'https://github.com/mariotoffia/pypwext',
@@ -34,9 +35,11 @@ setup(
     ],
     keywords=['AWS', 'Lambda', 'Library', 'Decorator'],
     classifiers=[
-        'Development Status :: 3 - Alpha',      # "3 - Alpha", "4 - Beta" or "5 - Production/Stable"
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
-        'License :: OSI Approved :: APACHE 2.0 License'
+        "Programming Language :: Python :: 3",  # "3 - Alpha", "4 - Beta" or "5 - Production/Stable"
+        "License :: OSI Approved :: MIT License",
+        'License :: OSI Approved :: Apache Software License',
+        "Operating System :: OS Independent",
     ],
 )

@@ -9,7 +9,9 @@ test:
 dependencies:
 	@pip install -r requirements/requirements.txt
 build:
-	@python3 -m build
+	@python -m build
+publish:
+	@python -m twine upload dist/* --config-file ./.pypirc
 freeze:
 	@mkdir -p requirements
 	@pip freeze > requirements/requirements.txt

@@ -11,12 +11,15 @@
         "mydomain",
         "mydomcain",
         "nisse",
+        "openaq",
         "POWERTOOLS",
+        "pwhttp",
         "pwlogging",
         "pydantic",
         "pypwext",
         "setuptools",
         "Toffia",
+        "Västernorrland",
         "venv"
     ],
     "python.testing.pytestArgs": [

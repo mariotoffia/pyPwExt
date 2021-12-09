@@ -194,12 +194,13 @@ def test_decorated_api_gw_auth():
         del os.environ['AWS_SECRET_ACCESS_KEY']
 
 
+@pytest.mark.skip(reason="must setup a lambda on other account to test it from GitHub Actions")
 def test_decorator_lambda_func():
     with PyPwExtHTTPSession(api_gateway_mapping=False) as http:
 
         @http.method(
             method='FUNC',
-            url='arn:aws:lambda:eu-west-1:010711114025:function:mario-unit-test-function',
+            url='arn:aws:lambda:eu-west-1:<account>:function:mario-unit-test-function',
             params={'country': '{country}'}
         )
         def get_cities(country: str, response: LambdaResponse = None) -> str:
@@ -222,6 +223,7 @@ def test_decorator_lambda_func():
         assert '{"country": "SE", "name": "Västernorrland", "city": "Västernorrland", "count": 81637329, "locations": 2}' in value
 
 
+@pytest.mark.skip(reason="must setup a lambda on other account to test it from GitHub Actions")
 def test_manual_lambda_func_invoke():
     with PyPwExtHTTPSession(api_gateway_mapping=False) as http:
         result = http.func(
@@ -232,6 +234,7 @@ def test_manual_lambda_func_invoke():
         assert '"city": "Västernorrland"' in result.payload_as_text()
 
 
+@pytest.mark.skip(reason="must setup a lambda on other account to test it from GitHub Actions")
 def test_decorator_lambda_func_partial_arn():
 
     with PyPwExtHTTPSession(api_gateway_mapping=False) as http:
@@ -261,12 +264,13 @@ def test_decorator_lambda_func_partial_arn():
         assert '{"country": "SE", "name": "Västernorrland", "city": "Västernorrland", "count": 81637329, "locations": 2}' in value
 
 
+@pytest.mark.skip(reason="must setup a lambda on other account to test it from GitHub Actions")
 def test_decorator_lambda_event():
     with PyPwExtHTTPSession(api_gateway_mapping=False) as http:
 
         @http.method(
             method='EVENT',
-            url='arn:aws:lambda:eu-west-1:010711114025:function:mario-unit-test-function',
+            url='arn:aws:lambda:eu-west-1:<account>:function:mario-unit-test-function',
             body='body'
         )
         def get_cities(body: Dict[str, Any], response: LambdaResponse = None) -> str:

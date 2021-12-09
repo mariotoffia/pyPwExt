@@ -5,8 +5,11 @@ lint:
 	@python -m flake8 pypwext
 	@python -m mypy pypwext
 test:
-	@python -m pytest tests
+# --doctest-modules 
+	@pip install pytest-cov
+	@python -m pytest tests --junitxml=junit/test-results.xml --cov=pypwext --cov-report=xml --cov-report=html
 dependencies:
+	@python -m pip install --upgrade pip setuptools wheel
 	@pip install -r requirements/requirements.txt
 build:
 	@python -m build

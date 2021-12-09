@@ -131,3 +131,4 @@ dmypy.json
 
 .git/
 .pypirc
+junit/

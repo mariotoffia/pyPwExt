@@ -132,3 +132,4 @@ dmypy.json
 .git/
 .pypirc
 junit/
+RELEASE-VERSION.txt

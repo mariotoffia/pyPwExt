@@ -16,6 +16,8 @@ build-dependencies:
 	@python -m pip install --upgrade pip
 	@pip install -r requirements/build.txt
 build:
+	@rm -rf README.rst
+	@python tools/versions.py
 	@python -m build
 publish:
 	@python -m twine upload dist/* --config-file ./.pypirc

@@ -3,11 +3,16 @@ from setuptools import setup, find_packages
 with open('README.md') as f:
     long_description = f.read()
 
-VERSION = '0.0.2'
+with open('README.rst') as f:
+    VERSION = f.read().strip()
+
+if not VERSION:
+    raise ValueError("Unable to get version from git")
+
 setup(
     name='pypwext',
     package_dir={"": "pypwext"},
-    packages=find_packages(where="src"),
+    packages=find_packages(where="pypwext"),
     python_requires=">=3.8",
     version=VERSION,
     license='APACHE 2.0',

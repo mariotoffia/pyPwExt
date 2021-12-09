@@ -13,6 +13,7 @@
         "POWERTOOLS",
         "pydantic",
         "pypwext",
+        "Toffia",
         "venv"
     ],
     "python.testing.pytestArgs": [

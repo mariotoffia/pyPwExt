@@ -11,7 +11,7 @@ the content of the payloads sent back and forth.
 
 The only **reserved** return body element is *error*. But that is if you use `PyPwExtResponse` 
 **and** `PyPwExtService.response` decorator. You may even omit that if you set the 
-`@response(just_status_code=True)`, and that is the *default* behaviour 😊
+`@response(just_status_code=True)`, and that is the *default* behavior 😊
 
 For example:
 ```python
@@ -134,11 +134,11 @@ Since, `@service.response` by default returns the "largest" status code (*otherw
 }
 ```
 
-Since `@logger.method` is applied, it logs it using `DEBUG` verbosity at the entry, and `INFO` log the exit by default. However, it will not log the exception in the `send_offer` function since it would fill the log with cluttered information.
+Since `@logger.method` is applied, it logs it using `DEBUG` verbosity at the entry, and `INFO` log the exit by default. However, it won't log the exception in the `send_offer` function since it would fill the log with cluttered information.
 
 The `@http.method` automatically detects *AWS API* endpoints and uses *SigV4* by default. However, it is completely configurable in the `PyPwExtHTTPSession` constructor. 
 
-Since no argument is given in ``@service.response``, the ``PyPwExtResponse`` object is converted to an API Gateway response that supports either *REST* or *HTTPv2* version of the API Gateway. Thus the *JSON* payload is the *body* part of the response, and the *statusCode* is set to 402 (*NOT FOUND*) since that was the last collected error. Of course, you may override this behavior if you want.
+Since no argument given in ``@service.response``, the ``PyPwExtResponse`` object is converted to an API Gateway response that supports either *REST* or *HTTPv2* version of the API Gateway. Thus the *JSON* payload is the *body* part of the response, and the *statusCode* is set to 402 (*NOT FOUND*) since that was the last collected error. Of course, you may override this behaviour if you want.
 
 The *PyPwExt* also comes with an out of the box ``PyPwExtJSONEncoder``capable of handling many object types and
 is extensible. For example, it adheres to ``base`` module protocols such as ``SupportsToJson`` and ``SupportsToCuratedDict`` (that also ``pydantic.BaseModel`` also exposes).
@@ -231,7 +231,7 @@ It logs the objects in the payload and the response, and if any error occurs, if
 
 The *HTTP* module returns a pre-configured HTTP session that defaults. For example, it can configure the number of retries and the timeout and which methods and response codes should yield a retry.
 
-When retrying, it uses an exponential backoff and handles temporal outages.
+When retrying, it uses an exponential back-off and handles temporal outages.
 
 ```python
 with PyPwExtHTTPSession(logger=logger) as http:
@@ -241,7 +241,7 @@ with PyPwExtHTTPSession(logger=logger) as http:
     )
 ```
 
-Below, do reconfigure the timeout and logs on request and response. It also reconfigures the number of retries to 3 and a higher backoff factor (wait longer time).
+Below, do reconfigure the timeout and logs on request and response. It also reconfigures the number of retries to 3 and a higher back-off factor (wait longer time).
 
 ```python
 logger = PyPwExtLogger()
@@ -265,12 +265,12 @@ If an *API Gateway* call is wanted. It is expected to be on the following form: 
     )
 ```
 
-The above example overrides the *AWS_REGION* environment, instead hard-code to *eu-north-1*.
+The above example overrides the *AWS_REGION* environment to *eu-north-1*.
 
 **NOTE: Since the `PyPwExtHTTPSession` is a standard python library `HTTPSession`, it pools connections and so on and thus should be
 cached to avoid the overhead of creating a new session for each request.**
 
-The extension of `PyPwExtHTTPSession` handles synchronous and asynchronous lambda calls with configurable retries and "sensible" defaults. It is possible to use them from code or decorated on the function.
+The `PyPwExtHTTPSession` extension handles synchronous and asynchronous lambda calls with configurable retries and "sensible" defaults. It is possible to use them from code or decorated on the function.
 
 The sample below invokes the lambda synchronously and passes custom parameters in the `LambdaContext` and nothing as the body. It has a default of 10 times before giving up.
 
@@ -438,7 +438,7 @@ The logger, independent if it is decorated or used directly, forces few new fiel
 * type
 * operation
 
-Additionally, if you enable log lambda context, it adds a set of function_* fields. If x-ray is enabled, it logs that as well. The below entry also adds a *correlation_id* of the REST API Gateway request-id. This was done through:
+Additionally, if you enable log lambda context, it adds a set of function_* fields. If x-ray is enabled, it logs that as well. The below entry also adds a *correlation_id* of the REST API Gateway request-id.
 
 ```python
 @logger.inject_lambda_context(correlation_id_path=correlation_paths.API_GATEWAY_REST)

@@ -1,8 +1,12 @@
 {
     "cSpell.words": [
+        "backoff",
+        "behaviour",
         "botocore",
         "chardet",
         "dataclass",
+        "mydomain",
+        "mydomcain",
         "nisse",
         "POWERTOOLS",
         "pydantic",

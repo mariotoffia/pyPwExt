@@ -117,6 +117,7 @@ from http import HTTPStatus
 from functools import wraps
 from aws_requests_auth.boto_utils import BotoAWSRequestsAuth
 from boto3 import client as boto_client
+from botocore.exceptions import NoRegionError
 from botocore.response import StreamingBody
 from botocore.config import Config
 from base64 import b64encode
@@ -312,7 +313,10 @@ class PyPwExtHTTPSession(requests.Session):
 
         self.lambda_config = initial_config
 
-        self.lambda_client = boto_client('lambda', config=self.lambda_config)
+        try:
+            self.lambda_client = boto_client('lambda', config=self.lambda_config)
+        except NoRegionError:
+            pass
 
         self.logger = logger
         if self.logger is None:
@@ -571,6 +575,9 @@ class PyPwExtHTTPSession(requests.Session):
             body_data: Optional[bytes],
             client_context: Optional[Dict[str, str]] = None) -> LambdaResponse:
         """Invoke the lambda function."""
+
+        if not self.lambda_client:
+            raise PyPwExtInternalError(message='Lambda client is not initialized (not in AWS environment?)')
 
         type = 'Event' if is_event else 'RequestResponse'
 

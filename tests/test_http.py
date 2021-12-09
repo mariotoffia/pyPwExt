@@ -34,7 +34,7 @@ def test_default_pypwext_http_session_produces_no_json_content_type_and_accept_h
                 level=logging.DEBUG
             )
 
-            with PyPwExtHTTPSession(logger=logger) as http:
+            with PyPwExtHTTPSession(logger=logger, api_gateway_mapping=False) as http:
                 http.get(
                     'https://api.openaq.org/v1/cities',
                     params={'country': 'SE'},
@@ -71,6 +71,7 @@ def test_default_headers_are_merged_with_explicit_set():
 
             with PyPwExtHTTPSession(
                 logger=logger,
+                api_gateway_mapping=False,
                 headers={
                     'Content-Type': 'application/text',
                     'Accept': 'application/json'
@@ -91,6 +92,7 @@ def test_default_headers_are_merged_with_explicit_set():
         del os.environ['AWS_REGION']
 
 
+@pytest.mark.skip(reason="must setup a lambda environment on github account")
 def test_api_gateway_execute_adds_headers():
 
     import requests
@@ -109,7 +111,7 @@ def test_api_gateway_execute_adds_headers():
         with patch.object(
             requests.sessions.Session, 'send', side_effect=send
         ):
-            with PyPwExtHTTPSession() as http:
+            with PyPwExtHTTPSession(api_gateway_mapping=False) as http:
                 http.get(
                     'https://abc123.execute-api.eu-west-1.amazonaws.com/dev/cities',
                     params={'country': 'SE'}

@@ -1,0 +1,5 @@
+aws-requests-auth==0.4.3
+aws_lambda_powertools==1.22.0
+chardet==4.0.0
+pydantic==1.8.2
+email-validator==1.1.3

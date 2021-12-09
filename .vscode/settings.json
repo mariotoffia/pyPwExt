@@ -1,6 +1,7 @@
 {
     "cSpell.words": [
         "asdict",
+        "autopep",
         "backoff",
         "behaviour",
         "botocore",
@@ -12,12 +13,15 @@
         "junitxml",
         "mydomain",
         "mydomcain",
+        "mypy",
         "nisse",
         "openaq",
         "POWERTOOLS",
         "pwhttp",
         "pwlogging",
         "pydantic",
+        "pylint",
+        "pypa",
         "pypi",
         "pypwext",
         "pytest",

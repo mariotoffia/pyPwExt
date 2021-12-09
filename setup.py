@@ -20,7 +20,7 @@ setup(
     project_urls={
         'Source': 'https://github.com/mariotoffia/pypwext',
         'Documentation': 'https://github.com/mariotoffia/pypwext',
-        'Tracker': 'https://github.com/mariotoffia/pypwext',
+        'Tracker': 'https://github.com/mariotoffia/pypwext/issues',
     },
     download_url='https://github.com/mariotoffia/pypwext/archive/refs/tags/0.0.1.tar.gz',
     url='https://github.com/mariotoffia/pypwext',

@@ -458,7 +458,7 @@ class PyPwExtHTTPSession(requests.Session):
 
                 # Extract the body data
                 body_data: bytes = None
-                original_body: Optional[any] = None
+                original_body: Optional[Any] = None
 
                 if body and body in in_args:
 
@@ -629,7 +629,7 @@ class PyPwExtHTTPSession(requests.Session):
 
             text = response.payload_as_text()
             if text != '':
-                d['body'] = self._try_to_dict(text)
+                d['body'] = self.adapter._try_to_dict(text)
 
             self.logger.log(
                 self.adapter.out_level,

@@ -1,5 +1,7 @@
 # PyPwExt
 
+PyPi(https://pypi.org/project/pypwext/)
+
 This module contains the core functionality of the PyPwExt µService applications. 
 
 :bulb: Each piece of functionality is implemented as an individual function and is **not** 

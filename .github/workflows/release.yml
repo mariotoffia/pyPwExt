@@ -15,7 +15,7 @@ jobs:
           python-version: "3.x"
       - name: Install build-dependencies
         run: |
-          make dependencies
+          make build-dependencies
       - name: Build package
         run: make build
       - name: Publish package

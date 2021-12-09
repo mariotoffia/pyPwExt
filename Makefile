@@ -12,5 +12,5 @@ freeze:
 update:
 	@pip install -U pip
 stats:
-	@scc . --cocomo-project-type=organic --include-ext=py,adoc \
+	@scc . --cocomo-project-type=organic --include-ext=py,adoc,md \
 		--exclude-dir=.git,_output,node_modules,.venv,.pytest_cahce,.mypy_cache,.tox,__pycache__,.vscode,__pycache__

@@ -22,13 +22,14 @@
     cors_config = CORSConfig(allow_origin="https://example.com", max_age=300)
     app = ApiGatewayResolver(cors=cors_config)
     tracer = Tracer()
-    logger = PyPwExtLogger(default_logger=True)
+    logger = PyPwExtLogger()
     errors = PyPwExtErrorHandler()
+    service = PyPwExtService()
 
     @app.post("/send-contracts")
     @errors.collect(root=True)
-    @pypwext_response
-    @pypwext_log
+    @service.response
+    @log.method
     def send_contracts():
         people = json.loads(app.current_event.json_body)
 

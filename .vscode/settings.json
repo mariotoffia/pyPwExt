@@ -1,10 +1,12 @@
 {
     "cSpell.words": [
+        "asdict",
         "backoff",
         "behaviour",
         "botocore",
         "chardet",
         "dataclass",
+        "istraceback",
         "mydomain",
         "mydomcain",
         "nisse",

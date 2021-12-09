@@ -4,7 +4,7 @@ import traceback
 
 from json import JSONEncoder
 from datetime import date, datetime, time
-from typing import Optional, Callable, Any
+from typing import Optional, Callable, Any, Uninon, Dict
 from inspect import istraceback
 from dataclasses import asdict
 
@@ -26,7 +26,7 @@ class PyPwExtJSONEncoder(JSONEncoder):
 
         self._prehook = prehook
 
-    def default(self, o: Any) -> str:
+    def default(self, o: Any) -> Uninon[str, Dict[str, Any]]:
         """default handles various objects o that is not usually encodeable by `JSONEncoder`"""
 
         if self._prehook:
@@ -51,14 +51,14 @@ class PyPwExtJSONEncoder(JSONEncoder):
         except TypeError:
             pass
 
+        if is_dataclass_instance(o):
+            return asdict(o)
+
         try:
             if issubclass(type(o), SupportsToJson):
                 return o.json()
         except TypeError:
             pass
-
-        if is_dataclass_instance(o):
-            return asdict(o)
 
         try:
             return super().default(o)

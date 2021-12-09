@@ -133,11 +133,6 @@ class PyPwExtError(Exception):
         """
         ...
 
-    @property
-    def inner(self) -> Optional['PyPwExtError']:
-        """_[optional]_ An inner error that is encapsulated in this error."""
-        ...
-
     def dict(self) -> Dict[Any, str]:
         """Returns a dictionary representation of a `PyPwExtError`"""
         d = {
@@ -149,8 +144,6 @@ class PyPwExtError(Exception):
 
         if self.details:
             d['details'] = self.details
-        if self.inner:
-            d['inner'] = self.inner.dict()
 
         return d
 
@@ -279,17 +272,12 @@ class StdPyPwExtError(PyPwExtError):
     def details(self) -> Dict[str, Any]:
         return self._details
 
-    @property
-    def inner(self) -> Optional[PyPwExtError]:
-        return self._inner
-
     def __init__(
             self, message: str,
             code: HTTPStatus = HTTPStatus.BAD_REQUEST,
             action: ErrorAction = ErrorAction.RAISE,
             classification: InfoClassification = InfoClassification.NA,
-            details: Dict[str, Any] = None,
-            inner: PyPwExtError = None) -> None:
+            details: Dict[str, Any] = None) -> None:
 
         super().__init__(message)
 
@@ -301,7 +289,6 @@ class StdPyPwExtError(PyPwExtError):
         self._message = message
         self._classification = classification
         self._details = details
-        self._inner = inner
 
     def __str__(self) -> str:
         return f'{self.message}'
@@ -310,8 +297,7 @@ class StdPyPwExtError(PyPwExtError):
         return (
             f'{self.__class__.__name__}(code={self.code.name}, '
             f'action={self.action.name}, message={self.message}, '
-            f'classification={self.classification.name}, details={self.details}, '
-            f'inner={repr(self.inner) if self.inner else ""})')
+            f'classification={self.classification.name}, details={self.details})')
 
 
 @dataclass
@@ -323,10 +309,9 @@ class PyPwExtHTTPError(StdPyPwExtError):
             code: Union[HTTPStatus, int] = HTTPStatus.BAD_REQUEST,
             action: ErrorAction = ErrorAction.RAISE,
             classification: InfoClassification = InfoClassification.NA,
-            details: Dict[str, Any] = None,
-            inner: PyPwExtError = None) -> None:
+            details: Dict[str, Any] = None) -> None:
 
-        super().__init__(message, code, action, classification, details, inner)
+        super().__init__(message, code, action, classification, details)
 
 
 @dataclass
@@ -338,10 +323,9 @@ class PyPwExtInternalError(StdPyPwExtError):
             code: HTTPStatus = HTTPStatus.INTERNAL_SERVER_ERROR,
             action: ErrorAction = ErrorAction.RAISE,
             classification: InfoClassification = InfoClassification.NA,
-            details: Dict[str, Any] = None,
-            inner: PyPwExtError = None) -> None:
+            details: Dict[str, Any] = None) -> None:
 
-        super().__init__(message, code, action, classification, details, inner)
+        super().__init__(message, code, action, classification, details)
 
 
 @dataclass
@@ -363,16 +347,14 @@ class PyPwExtErrorWithReturn(StdPyPwExtError):
             code: HTTPStatus = HTTPStatus.BAD_REQUEST,
             action: ErrorAction = ErrorAction.CONTINUE,
             classification: InfoClassification = InfoClassification.NA,
-            details: Dict[str, Any] = None,
-            inner: PyPwExtError = None) -> None:
+            details: Dict[str, Any] = None) -> None:
 
         super().__init__(
             message,
             code,
             action,
             classification,
-            details,
-            inner)
+            details)
 
         self._return_value = return_value
 

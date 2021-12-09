@@ -9,32 +9,29 @@ def test_init_env():
         if os.environ.get(s):
             del os.environ[s]
 
-    check_delete('LOG_LEVEL')
     check_delete('POWERTOOLS_SERVICE_NAME')
     check_delete('POWERTOOLS_METRICS_NAMESPACE')
 
-    logging_level = os.environ.get('LOGGING_LEVEL')
     service_name = os.environ.get('SERVICE_NAME')
+    metrics_namespace = os.environ.get('METRICS_NAMESPACE')
 
-    os.environ['LOGGING_LEVEL'] = 'test-level'
     os.environ['SERVICE_NAME'] = 'test-service'
+    os.environ['METRICS_NAMESPACE'] = 'test-namespace'
 
     init_env()
 
     try:
 
-        assert os.environ['LOG_LEVEL'] == 'test-level'
         assert os.environ['POWERTOOLS_SERVICE_NAME'] == 'test-service'
-        assert os.environ['POWERTOOLS_METRICS_NAMESPACE'] == 'test-service'
+        assert os.environ['POWERTOOLS_METRICS_NAMESPACE'] == 'test-namespace'
 
     finally:
 
-        check_delete('LOG_LEVEL')
         check_delete('POWERTOOLS_SERVICE_NAME')
         check_delete('POWERTOOLS_METRICS_NAMESPACE')
 
-        if logging_level:
-            os.env['LOGGING_LEVEL'] = logging_level
-
         if service_name:
             os.environ['SERVICE_NAME'] = service_name
+
+        if metrics_namespace:
+            os.environ['METRICS_NAMESPACE'] = metrics_namespace

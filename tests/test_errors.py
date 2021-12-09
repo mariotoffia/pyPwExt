@@ -34,11 +34,10 @@ def test_std_pypwext_error_single_inner_json():
     """
     Test that the std_pypwext_error function returns a JSON-serializable object with an inner _JSON_.
     """
-    x = StdPyPwExtError("Outer error", inner=StdPyPwExtError("Inner error"))
+    x = StdPyPwExtError("Outer error")
 
     assert x.json() == (
-        '{"code": 400, "action": "RAISE", "msg": "Outer error", "classification": "NA", '
-        '"inner": {"code": 400, "action": "RAISE", "msg": "Inner error", "classification": "NA"}}')
+        '{"code": 400, "action": "RAISE", "msg": "Outer error", "classification": "NA"}')
 
 
 def test_error_collector_has_errors_matcher_simple():

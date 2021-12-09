@@ -4,6 +4,8 @@ clean:
 lint:
 	@python -m flake8 pypwext
 	@python -m mypy pypwext
+test:
+	@python -m pytest tests
 dependencies:
 	@pip install -r requirements/requirements.txt
 freeze:

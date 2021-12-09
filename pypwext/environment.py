@@ -9,13 +9,6 @@ def init_env():
         AWS lambda powertools.
     """
     if (
-        os.environ.get('LOGGING_LEVEL') is not None and  # noqa: W504
-        os.environ.get('LOG_LEVEL') is None
-    ):
-        # Lambda Powertools uses LOG_LEVEL, but we use LOGGING_LEVEL
-        os.environ['LOG_LEVEL'] = os.environ.get('LOGGING_LEVEL')
-
-    if (
         os.environ.get('SERVICE_NAME') is not None and  # noqa: W504
         os.environ.get('POWERTOOLS_SERVICE_NAME') is None
     ):

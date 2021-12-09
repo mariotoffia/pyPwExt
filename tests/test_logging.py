@@ -8,7 +8,7 @@ import string
 from typing import Tuple
 
 from pypwext.base import InfoClassification, Message, Classification, Arguments, Return, Operation
-from pypwext.logging import PyPwExtLogger, LogEntryType, LogType
+from pypwext.logging import PyPwExtLogger, LogEntryType, LogType, VERBOSE
 
 
 def get_new_logger_name() -> str:
@@ -28,6 +28,30 @@ def test_std_json_logging_just_message():
         assert '"msg":"payment_finished"' in value
         assert '"timestamp"' in value
         assert '"level":"INFO"' in value
+        assert '"classification":"NA"' in value
+        assert '"type":"STD"' in value
+        assert f'"service":"{logger.service}"' in value
+        assert '"location":"pay:' in value
+
+
+def test_level_verbose_is_working():
+
+    with io.StringIO() as s:
+        logger = PyPwExtLogger(
+            service=get_new_logger_name(),
+            logger_handler=logging.StreamHandler(s),
+            level=VERBOSE
+        )
+
+        def pay():
+            logger.verbose("payment_finished")
+
+        pay()
+        value = s.getvalue()
+
+        assert '"msg":"payment_finished"' in value
+        assert '"timestamp"' in value
+        assert '"level":"VERBOSE"' in value
         assert '"classification":"NA"' in value
         assert '"type":"STD"' in value
         assert f'"service":"{logger.service}"' in value

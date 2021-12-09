@@ -194,6 +194,12 @@ from aws_lambda_powertools.logging.logger import PowertoolsFormatter, Logger
 LogType: str = 'type'
 """The `LogEntryType` to add to the log."""
 
+VERBOSE = logging.DEBUG - 1
+"""Verbose log level.
+
+This is an addition of the log levels to allow for verbose level logging.
+"""
+
 
 class LogEntryType(IntEnum):
     """Specifies the log entry type."""
@@ -268,10 +274,15 @@ class PyPwExtLogger(Logger):
             **kwargs)
 
         # This is the actual addition
+        logging.addLevelName(VERBOSE, "VERBOSE")
+
         self.append_keys(
             classification=InfoClassification.NA.name,
             type=LogEntryType.STD.name
         )
+
+    def verbose(self, msg: str, *args: Any, **kwargs: Any) -> None:
+        self.log(VERBOSE, msg, *args, **kwargs)
 
     def debug(self, msg, *args, **kwargs):
         self.log(logging.DEBUG, msg, *args, **kwargs)

@@ -11,5 +11,6 @@ freeze:
 	@pip freeze > requirements/requirements.txt
 update:
 	@pip install -U pip
-import:
-	@python fetch.py -b bm.html -p "Bookmarks bar/nm"
+stats:
+	@scc . --cocomo-project-type=organic --include-ext=py,adoc \
+		--exclude-dir=.git,_output,node_modules,.venv,.pytest_cahce,.mypy_cache,.tox,__pycache__

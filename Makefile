@@ -8,6 +8,8 @@ test:
 	@python -m pytest tests
 dependencies:
 	@pip install -r requirements/requirements.txt
+build:
+	@python3 -m build
 freeze:
 	@mkdir -p requirements
 	@pip freeze > requirements/requirements.txt

@@ -17,10 +17,8 @@ build-dependencies:
 	@pip install -r requirements/build.txt
 build:
 	@rm -rf README.rst
-	@cp README.md pypwext
 	@python tools/versions.py
 	@python -m build
-	@rm -rf pypwext/README.md
 publish:
 	@python -m twine upload dist/* --config-file ./.pypirc
 freeze:

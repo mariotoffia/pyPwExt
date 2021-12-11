@@ -1,7 +1,9 @@
 # PyPwExt
 
 ![example workflow](https://github.com/mariotoffia/pypwext/actions/workflows/push.yml/badge.svg)
-![example workflow](https://github.com/mariotoffia/pypwext/actions/workflows/release.yml/badge.svg)
+[![PyPI version](https://badge.fury.io/py/pypwext.svg)](https://badge.fury.io/py/pypwext)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=pypwext&metric=alert_status)](https://sonarcloud.io/dashboard?id=pypwext)
+
 
 PyPi(https://pypi.org/project/pypwext/)
 

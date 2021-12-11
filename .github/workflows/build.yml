@@ -44,7 +44,7 @@ jobs:
           path: htmlcov
         if: ${{ always() }}
       - name: Override Coverage Source Path for Sonar
-        run: sed -i "s/<source>\/home\/runner\/work\/pypwext<\/source>/<source>\/github\/workspace<\/source>/g" /home/runner/work/pypwext/pypwext/coverage.xml
+        run: sed -i 's/home\/runner\/work\/pypwext\/pypwext/github\/workspace/' /home/runner/work/pypwext/pypwext/coverage.xml
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:

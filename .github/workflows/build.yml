@@ -1,0 +1,46 @@
+name: Sonarcloud Scan
+
+push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+      - name: Install dependencies
+        run: |
+          make dev-dependencies
+      - name: Lint with flake8
+        continue-on-error: true
+        run: |
+          make lint
+      - name: Test with pytest
+        run: |
+          make test
+      # - name: Upload pytest test results
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: pytest-results
+      #     path: junit/test-results.xml
+      #   if: ${{ always() }}
+      - name: Upload pytest code coverage
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage-result
+          path: htmlcov
+        if: ${{ always() }}
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

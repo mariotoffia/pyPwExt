@@ -1,19 +1,19 @@
 from setuptools import setup, find_packages
+import pathlib
 
-with open('README.md', encoding='utf-8') as f:
-    long_description = f.read()
+here = pathlib.Path(__file__).parent.resolve()
 
-with open('README.rst') as f:
-    VERSION = f.read().strip()
+long_description = (here / 'README.md').read_text(encoding='utf-8')
+VERSION = (here / 'RELEASE-VERSION.txt').read_text(encoding='utf-8')[:-1]
 
 if not VERSION:
     raise ValueError("Unable to get version from git")
 
 setup(
     name='pypwext',
+    python_requires='>=3.8, <4',
     package_dir={"": "pypwext"},
     packages=find_packages(where="pypwext"),
-    python_requires=">=3.8",
     version=VERSION,
     license='APACHE 2.0',
     author='Mario Toffia',

@@ -5,8 +5,8 @@ from subprocess import Popen, PIPE
 
 
 def write_release_version(version):
-    f = open("README.rst", "w")
-    f.write("%s\n" % version)
+    f = open('RELEASE-VERSION.txt', 'w')
+    f.write('%s\n' % version)
     f.close()
 
 
@@ -24,5 +24,5 @@ def get_latest_tag_version():
     write_release_version(line)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     get_latest_tag_version()

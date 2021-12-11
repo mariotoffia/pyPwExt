@@ -1,14 +1,22 @@
 clean:
-	@pip freeze | xargs pip uninstall -y
+	@- pip freeze | xargs pip uninstall -y 2>/dev/null
 	@rm -f requirements/detected.txt
-#	@find . -name __pycache__ -exec rm -rf {} \;
+	@rm -rf .pytest_cache
+	@rm -rf .mypy_cache
+	@rm -rf dist
+	@rm -rf htmlcov
+	@rm -rf junit
+	@rm -f coverage.xml
+	@rm -f RELEASE-VERSIONS.txt
+	@- find . -type d -name "pypwext.egg-info" -exec rm -rf "{}" \; 2>/dev/null
+	@- find . -type d -name "__pycache__" -exec rm -rf "{}" \; 2>/dev/null
 lint:
 	@python -m flake8 pypwext --count --show-source --statistics
 #	@python -m flake8 pypwext --count --exit-zero --max-complexity=10 --max-line-length=180 --statistics
 #	@python -m mypy pypwext
 test:
 # --doctest-modules 
-	@python -m pytest tests --junitxml=junit/test-results.xml --cov=pypwext --cov-report=xml --cov-report=html
+	@python -m pytest tests --junitxml=junit/test-results.xml -v --cov=pypwext --cov-report=xml --cov-report=html
 dev-dependencies:
 	@python -m pip install --upgrade pip
 	@pip install -r requirements/dev.txt

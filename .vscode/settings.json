@@ -10,6 +10,7 @@
         "Creager",
         "dataclass",
         "doctest",
+        "htmlcov",
         "istraceback",
         "junitxml",
         "mydomain",
@@ -28,6 +29,7 @@
         "pypwext",
         "pytest",
         "setuptools",
+        "sonarcloud",
         "Toffia",
         "Västernorrland",
         "venv"

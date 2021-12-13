@@ -4,9 +4,67 @@
 [![PyPI version](https://badge.fury.io/py/pypwext.svg)](https://badge.fury.io/py/pypwext)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=pypwext&metric=alert_status)](https://sonarcloud.io/dashboard?id=pypwext)
 
+This is a extension, decorators and other utilities that complements thew [AWS Lambda Powertools](https://awslabs.github.io/aws-lambda-powertools-python) library. It is centered around the following four **pillars**
 
-PyPi(https://pypi.org/project/pypwext/)
 
+1. Logging
+```python
+logger = PyPwExtLogger()
+
+@logger.method(classification=InfoClassification.PII)
+def subscribe(customer: Customer) -> Subscription:
+    ...
+```
+2. Error handling
+```python
+errors = PyPwExtErrorHandler()
+
+@errors.collect
+def do_operation():
+    raise PyPwExtHTTPError('Something went wrong', details={'foo': 'bar'})
+```
+3. HTTP and Lambda Communication
+```python
+http = PyPwExtHTTPSession() # Defaults with "sane" retries, exp back-off etc.
+
+@http.method(
+    method='POST',
+    url='https://{STAGE}.execute-api.{AWS_REGION}.amazonaws.com/{api_version}/my-api'
+    params= {'email':'{email}'},
+    body='customer'
+)
+def send_offer(
+    api_version:str, 
+    email: str, 
+    customer: Customer,
+    response_code:HTTPStatus=HTTPStatus.OK, 
+    response_body:str = ''
+) -> str:
+    ...
+```
+4. µService Support
+```python
+service = PyPwExtService()
+
+@service.response
+@event_parser(model=Order)
+def handler(event: Order, context: LambdaContext):
+
+    if not event.pypwext_id:
+        raise StdPyPwExtError(
+            code=HTTPStatus.BAD_REQUEST,
+            message="Missing pypwext_id",
+        )
+
+    return PyPwExtResponse(
+        status_code=HTTPStatus.OK,
+        updated=[item for item in event.items],
+        operation="create-order",            
+    )
+```
+
+
+## Overview
 This module contains the core functionality of the PyPwExt µService applications. 
 
 :bulb: Each piece of functionality is implemented as an individual function and is **not** 

@@ -535,7 +535,7 @@ class PyPwExtHTTPSession(requests.Session):
 
                 # Method do not handle response
                 if not method_handles:
-                    if response.status_code > 299:
+                    if response.status_code >= HTTPStatus.MULTIPLE_CHOICES:
                         raise PyPwExtHTTPError(
                             status_code=response.status_code,
                             message=response.text

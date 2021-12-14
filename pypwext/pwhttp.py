@@ -658,7 +658,7 @@ class PyPwExtRetry(Retry):
 
     def __init__(
             self,
-            total: int = 10,
+            total: int = 11,
             backoff_factor: int = 1,
             status_forcelist: List[int] = [429, 500, 502, 503, 504],
             allowed_methods: List[str] = ['HEAD', 'GET', 'PUT', 'DELETE', 'OPTIONS', 'TRACE'],

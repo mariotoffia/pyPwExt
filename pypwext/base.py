@@ -16,14 +16,9 @@
     The `InfoClassification` enumeration is used to classify information in
     e.g. error and log messages.
 """
-from pypwext.environment import init_env
-
 from dataclasses import is_dataclass
 from enum import IntEnum
 from typing import Callable, Dict, Any, Protocol, runtime_checkable
-
-# Make sure to initialize the pypwext core environment
-init_env()
 
 # Standard keywords in logging and errors (allows for e.g. search in log-insights)
 

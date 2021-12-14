@@ -180,11 +180,7 @@ from pypwext.errors import (
 )
 
 from pypwext.encoders import PyPwExtJSONEncoder
-from pypwext.environment import init_env
 from pypwext.errors import PyPwExtHTTPError
-
-# Make sure to initialize the pypwext core environment
-init_env()
 
 
 class ResponseType(IntEnum):

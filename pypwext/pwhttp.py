@@ -126,7 +126,7 @@ from io import BytesIO
 
 from pypwext.pwlogging import PyPwExtLogger
 from pypwext.base import InfoClassification, Classification
-from pypwext.utils import get_log_level, render_arg_env_string
+from pypwext.utils import get_log_level, render_arg_env_string, try_convert_to_dict
 from pypwext.errors import PyPwExtInternalError, PyPwExtHTTPError
 from pypwext.encoders import PyPwExtJSONEncoder
 
@@ -591,7 +591,7 @@ class PyPwExtHTTPSession(requests.Session):
                         'request': {
                             'type': type,
                             'function': function_name,
-                            'body': None if body_data is None else self.adapter._try_to_dict(body_data),
+                            'body': None if body_data is None else try_convert_to_dict(body_data),
                             'client_context': {} if client_context is None else client_context
                         },
                     }
@@ -636,7 +636,7 @@ class PyPwExtHTTPSession(requests.Session):
 
             text = response.payload_as_text()
             if text != '':
-                d['body'] = self.adapter._try_to_dict(text)
+                d['body'] = try_convert_to_dict(text)
 
             self.logger.log(
                 self.adapter.out_level,
@@ -747,7 +747,7 @@ class PyPwExtHTTPAdapter(HTTPAdapter):
                     Classification: self.before_classification.name,
                     'request':
                     {
-                        key: self._try_to_dict(value) for (key, value) in request.__dict__.items()
+                        key: try_convert_to_dict(value) for (key, value) in request.__dict__.items()
                         if key not in ['hooks', '_body_position', '_cookies'] and value is not None
                     }
                 }
@@ -757,13 +757,13 @@ class PyPwExtHTTPAdapter(HTTPAdapter):
 
         if self.logger:
             d = {
-                'header': self._try_to_dict(response.headers),
+                'header': try_convert_to_dict(response.headers),
                 'status': response.status_code
             }
 
             text = response.text
             if text:
-                d['body'] = self._try_to_dict(text)
+                d['body'] = try_convert_to_dict(text)
 
             self.logger.log(
                 self.out_level,
@@ -774,22 +774,3 @@ class PyPwExtHTTPAdapter(HTTPAdapter):
             )
 
         return response
-
-    def _try_to_dict(self, data: Any) -> Union[Dict[str, Any], str, None]:
-        """Try to convert the data to a dictionary."""
-        if not data:
-            return None
-
-        if isinstance(data, bytes):
-            return self._try_to_dict(data.decode('utf-8'))
-
-        if isinstance(data, str):
-            try:
-                return json.loads(data)
-            except json.JSONDecodeError:
-                return data
-
-        if isinstance(data, CaseInsensitiveDict):
-            return {key: value for (key, value) in data.items()}
-
-        return data

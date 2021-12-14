@@ -1,10 +1,12 @@
 """Miscellaneous utility functions."""
 
 import os
+import json
 import logging
 import re
 
 from typing import Union, Optional, Dict, Any
+from requests.structures import CaseInsensitiveDict
 
 
 def get_log_level(level: Union[str, int, None], default: int = logging.DEBUG) -> int:
@@ -88,3 +90,27 @@ def render_arg_env_string(__str: str, in_args: Dict[str, Any]) -> str:
     raise ValueError(
         f'Unable to render string: {original_str}, still has substitutions left: {__str}'
     )
+
+
+def try_convert_to_dict(data: Any) -> Union[Dict[str, Any], str, None]:
+    """Try to convert the `data` to a dictionary.
+
+    It will try to make sure that the data is converted to a plain `Dict[str, Any]`
+    dictionary. If it fails, it will return `None`.
+    """
+    if not data:
+        return None
+
+    if isinstance(data, bytes):
+        return try_convert_to_dict(data.decode('utf-8'))
+
+    if isinstance(data, str):
+        try:
+            return json.loads(data)
+        except json.JSONDecodeError:
+            return data
+
+    if isinstance(data, CaseInsensitiveDict):
+        return {key: value for (key, value) in data.items()}
+
+    return data

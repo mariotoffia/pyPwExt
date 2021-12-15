@@ -106,6 +106,10 @@ def try_convert_to_dict(data: Any) -> Union[Dict[str, Any], Any, None]:
     Args:
         data: Data to convert.
 
+    Returns:
+        If successfully converted to a dictionary, return the dictionary. Otherwise
+        the parameter `data` is returned.
+
     It will try to make sure that the data is converted to a plain `Dict[str, Any]`
     dictionary. If it fails, it will return the in parameter `data`. If the data is
     `None`, it will return `None`.

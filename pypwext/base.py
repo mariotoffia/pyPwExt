@@ -16,7 +16,6 @@
     The `InfoClassification` enumeration is used to classify information in
     e.g. error and log messages.
 """
-from dataclasses import is_dataclass
 from enum import IntEnum
 from typing import Callable, Dict, Any, Protocol, runtime_checkable
 
@@ -94,8 +93,3 @@ class InfoClassification(IntEnum):
     """This is data that is sensitive from a PyPwExt point of view. Hence should be handeled with care!"""
     PII = 100
     """Is Personal Identifiable Information and hence is under GDPR regulation."""
-
-
-def is_dataclass_instance(obj):
-    """Checks if obj is a instance of whose class is decorated with a `@dataclass` annotation"""
-    return is_dataclass(obj) and not isinstance(obj, type)

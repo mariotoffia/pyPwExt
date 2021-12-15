@@ -8,7 +8,8 @@ from typing import Optional, Callable, Any, Union, Dict
 from inspect import istraceback
 from dataclasses import asdict
 
-from pypwext.base import SupportsToCuratedDict, is_dataclass_instance, SupportsToJson
+from pypwext.base import SupportsToCuratedDict, SupportsToJson
+from pypwext.utils import is_dataclass_instance
 from pypwext.errors import PyPwExtError
 
 

@@ -5,6 +5,9 @@ import json
 import logging
 import re
 
+from dataclasses import is_dataclass
+from dataclasses import asdict
+from pypwext.base import SupportsToCuratedDict, SupportsToJson
 from typing import Union, Optional, Dict, Any
 from requests.structures import CaseInsensitiveDict
 
@@ -92,11 +95,23 @@ def render_arg_env_string(__str: str, in_args: Dict[str, Any]) -> str:
     )
 
 
-def try_convert_to_dict(data: Any) -> Union[Dict[str, Any], str, None]:
+def is_dataclass_instance(obj):
+    """Checks if obj is a instance of whose class is decorated with a `@dataclass` annotation"""
+    return is_dataclass(obj) and not isinstance(obj, type)
+
+
+def try_convert_to_dict(data: Any) -> Union[Dict[str, Any], Any, None]:
     """Try to convert the `data` to a dictionary.
 
+    Args:
+        data: Data to convert.
+
     It will try to make sure that the data is converted to a plain `Dict[str, Any]`
-    dictionary. If it fails, it will return `None`.
+    dictionary. If it fails, it will return the in parameter `data`. If the data is
+    `None`, it will return `None`.
+
+    It will also try to convert objects when implements `SupportsToCuratedDict` or
+    `SupportsToJson` protocols or is annotated with `@dataclass`.
     """
     if not data:
         return None
@@ -112,5 +127,20 @@ def try_convert_to_dict(data: Any) -> Union[Dict[str, Any], str, None]:
 
     if isinstance(data, CaseInsensitiveDict):
         return {key: value for (key, value) in data.items()}
+
+    try:
+        if issubclass(type(data), SupportsToCuratedDict):
+            return data.dict()
+    except TypeError:
+        pass
+
+    if is_dataclass_instance(data):
+        return asdict(data)
+
+    try:
+        if issubclass(type(data), SupportsToJson):
+            return try_convert_to_dict(data.json())
+    except TypeError:
+        pass
 
     return data

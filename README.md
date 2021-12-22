@@ -512,17 +512,17 @@ Sample log entry:
 ```json
 {
     "level": "ERROR",
-    "location": "get_pep_by_ssn:555",
+    "location": "my_func:555",
     "message": {
-        "msg": "Exception in get_pep_by_ssn",
+        "msg": "Exception in my_func",
         "args": {
-            "person_ssn": "197105180090"
+            "person_ssn": "19120102-01921"
         }
     },
     "timestamp": "2021-11-24 13:38:50,673+0000",
-    "service": "know_your_customer",
+    "service": "my service",
     "classification": "PII",
-    "type": "STD",
+    "type": "AUDIT",
     "cold_start": true,
     "function_name": "test_func",
     "function_memory_size": "1024",

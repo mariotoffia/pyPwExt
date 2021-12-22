@@ -250,13 +250,22 @@ class PyPwExtLogger(Logger):
             logger_formatter: Optional[PowertoolsFormatter] = None,
             logger_handler: Optional[logging.Handler] = None,
             custom_encoder: Optional[Callable[[Any], str]] = None,
+            skip_std_type: bool = True,
+            skip_info_na: bool = True,
             **kwargs):
         """See `Logger` for more information about initialization.
 
-            Additional Args:
-                default_logger(bool):                   If `True` the logger will be set as the default logger.
-                json_serializer(Callable[[Dict], str]): Function that serializes the log entry to JSON, default is `json.dumps`.
-                custom_encoder(Callable[[Any], str]):   Function that encodes the json data, default is `PyPwExtJSONEncoder`
+        Additional Args:
+            default_logger(bool):                   If `True` the logger will be set as the default logger.
+
+            json_serializer(Callable[[Dict], str]): Function that serializes the log entry to JSON, default is `json.dumps`.
+
+            custom_encoder(Callable[[Any], str]):   Function that encodes the json data, default is `PyPwExtJSONEncoder`
+
+            skip_std_type(bool):                    If `True` the `type` in log will not be emitted when `LogEntryType.STD` is used.
+
+            skip_info_name(bool):                   If `True` the `classification` in log will not be emitted when
+                                                    `InfoClassification.NA` is used.
         """
 
         encoder = PyPwExtJSONEncoder(custom_encoder)
@@ -275,10 +284,14 @@ class PyPwExtLogger(Logger):
         # This is the actual addition
         logging.addLevelName(VERBOSE, "VERBOSE")
 
-        self.append_keys(
-            classification=InfoClassification.NA.name,
-            type=LogEntryType.STD.name
-        )
+        if not skip_info_na:
+            self.append_keys(classification=InfoClassification.NA.name)
+
+        if not skip_std_type:
+            self.append_keys(type=LogEntryType.STD.name)
+
+        self.skip_std_type = skip_std_type
+        self.skip_info_na = skip_info_na
 
     def verbose(self, msg: str, *args: Any, **kwargs: Any) -> None:
         self.log(VERBOSE, msg, *args, **kwargs)
@@ -311,23 +324,35 @@ class PyPwExtLogger(Logger):
                 LogType: LogEntryType.STD.name
             }
 
-        clzf = msg.get(Classification)
+        clzf: Optional[str] = msg.get(Classification)
         if clzf:
             del msg[Classification]
 
             if isinstance(clzf, InfoClassification):
                 clzf = clzf.name
 
-            self.append_keys(classification=clzf)
+            if self.skip_info_na and clzf == InfoClassification.NA.name:
+                self.remove_keys(Classification)
+            else:
+                self.append_keys(classification=clzf)
+        else:
+            if not self.skip_info_na:
+                self.append_keys(classification=InfoClassification.NA.name)
 
-        log_type = msg.get(LogType)
+        log_type: Optional[str] = msg.get(LogType)
         if log_type:
             del msg[LogType]
 
             if isinstance(log_type, LogEntryType):
                 log_type = log_type.name
 
-            self.append_keys(type=log_type)
+            if self.skip_std_type and log_type == LogEntryType.STD.name:
+                self.remove_keys(LogType)
+            else:
+                self.append_keys(type=log_type)
+        else:
+            if not self.skip_std_type:
+                self.append_keys(type=LogEntryType.STD.name)
 
         operation = msg.get(Operation)
         if operation:

@@ -28,7 +28,49 @@ def test_std_json_logging_just_message():
         assert '"msg":"payment_finished"' in value
         assert '"timestamp"' in value
         assert '"level":"INFO"' in value
+        assert f'"service":"{logger.service}"' in value
+        assert '"location":"pay:' in value
+
+
+def test_always_na_classification():
+    with io.StringIO() as s:
+        logger = PyPwExtLogger(
+            service=get_new_logger_name(),
+            logger_handler=logging.StreamHandler(s),
+            skip_info_na=False
+        )
+
+        def pay():
+            logger.info("payment_finished")
+
+        pay()
+        value = s.getvalue()
+
+        assert '"msg":"payment_finished"' in value
         assert '"classification":"NA"' in value
+        assert '"timestamp"' in value
+        assert '"level":"INFO"' in value
+        assert f'"service":"{logger.service}"' in value
+        assert '"location":"pay:' in value
+
+
+def test_always_std_type():
+    with io.StringIO() as s:
+        logger = PyPwExtLogger(
+            service=get_new_logger_name(),
+            logger_handler=logging.StreamHandler(s),
+            skip_std_type=False
+        )
+
+        def pay():
+            logger.info("payment_finished")
+
+        pay()
+        value = s.getvalue()
+
+        assert '"msg":"payment_finished"' in value
+        assert '"timestamp"' in value
+        assert '"level":"INFO"' in value
         assert '"type":"STD"' in value
         assert f'"service":"{logger.service}"' in value
         assert '"location":"pay:' in value
@@ -52,8 +94,6 @@ def test_level_verbose_is_working():
         assert '"msg":"payment_finished"' in value
         assert '"timestamp"' in value
         assert '"level":"VERBOSE"' in value
-        assert '"classification":"NA"' in value
-        assert '"type":"STD"' in value
         assert f'"service":"{logger.service}"' in value
         assert '"location":"pay:' in value
 
@@ -135,8 +175,6 @@ def test_std_json_logging_supports_json():
         assert '"msg":"payment_finished"' in value
         assert '"timestamp"' in value
         assert '"level":"INFO"' in value
-        assert '"classification":"NA"' in value
-        assert '"type":"STD"' in value
         assert f'"service":"{logger.service}"' in value
         assert '"location":"pay:' in value
         assert '{"test":123}' in value
@@ -329,8 +367,6 @@ def test_log_exception_manually():
         assert '"message":{"msg":"This is an exception"}' in value
         assert '"timestamp":"' in value
         assert '"service":"' in value
-        assert '"classification":"NA"' in value
-        assert '"type":"STD"' in value
         assert '"exception":"Traceback (most recent call last):\\n  File \\"' in value
         assert 'raise Exception(\\"Something went wrong\\")\\nException: Something went wrong"' in value
         assert '"exception_name":"Exception"' in value
@@ -360,7 +396,6 @@ def test_logging_keywords_is_controllable():
         pay("abc123", 100)
         value = output.getvalue()
         assert '"classification":"CORPORATE_SENSITIVE_INFO"' in value
-        assert '"type":"STD"' in value
         assert '"classification":"PII"' in value
         assert '"type":"AUDIT"' in value
         assert '"operation":"payment"' in value

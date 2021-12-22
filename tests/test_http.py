@@ -46,7 +46,6 @@ def test_default_pypwext_http_session_produces_no_json_content_type_and_accept_h
 
             assert '"url":"https://api.openaq.org/v1/cities?country=SE"' in value
             assert '"Connection":"keep-alive"' in value
-            assert '"classification":"NA' in value
             assert '"Content-Type":"application/json"' in value
             assert '"status":200' in value
             assert '"name":"openaq-api"' in value
